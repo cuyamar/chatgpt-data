@@ -1,0 +1,26 @@
+server:
+  port: 80
+
+#应用配置
+app:
+  config:
+    # 版本，方便通过接口版本升级
+    api-version: v1
+    # 跨域，开发阶段可以设置为 * 不限制
+    cross-origin: '*'
+
+
+#ChatGLM SDK Config
+chatglm:
+  sdk:
+    config:
+      #官方地址https://open.bigmodel.cn/
+      api-host: https://open.bigmodel.cn/
+      api-secret-key: a391bf252379bc2ed4164e2363e00516.0gJYz4WhwyhboEHC
+
+
+# 日志
+logging:
+  level:
+    root: info
+  config: classpath:logback-spring.xml
