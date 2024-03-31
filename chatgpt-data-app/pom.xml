@@ -57,6 +57,11 @@
             <groupId>com.codify</groupId>
             <artifactId>chatglm-sdk-java</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.codify</groupId>
+            <artifactId>chatgpt-sdk-java</artifactId>
+        </dependency>
         <!-- 自身模块 begin -->
         <dependency>
             <groupId>com.codify</groupId>

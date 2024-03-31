@@ -20,13 +20,23 @@ thread:
         keep-alive-time: 5000
         policy: CallerRunsPolicy
 
-#ChatGLM SDK Config
-chatglm:
+
+# ChatGPT SDK Config
+chatgpt:
   sdk:
     config:
-      #官方地址https://open.bigmodel.cn/
-      api-host: https://open.bigmodel.cn/
-      api-secret-key: a391bf252379bc2ed4164e2363e00516.0gJYz4WhwyhboEHC
+      api-host: https://pro-share-aws-api.zcyai.com/
+      api-key: sk-PbgyE7PeErEvJQz83aCeC28038874dC1BeCaBb07Af9e35C8
+      auth-token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4ZmciLCJleHAiOjE2OTAwMzI5MDQsImlhdCI6MTY5MDAyOTMwNCwianRpIjoiOTBkNzc5NjYtOWM5MS00MGVmLWJmNjktNzYzNDljNmUyMDkyIiwidXNlcm5hbWUiOiJ4ZmcifQ.x7P6Rc249SgbxpqWhgKahYP8A8AllNI_26DV08a1AZs
+
+
+#ChatGLM SDK Config
+#chatglm:
+#  sdk:
+#    config:
+#      #官方地址https://open.bigmodel.cn/
+#      api-host: https://open.bigmodel.cn/
+#      api-secret-key: a391bf252379bc2ed4164e2363e00516.0gJYz4WhwyhboEHC
 
 
 # 日志
