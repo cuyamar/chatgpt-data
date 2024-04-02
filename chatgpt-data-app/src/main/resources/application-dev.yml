@@ -40,6 +40,15 @@ chatgpt:
 #      api-secret-key: a391bf252379bc2ed4164e2363e00516.0gJYz4WhwyhboEHC
 
 
+# 微信公众号配置信息
+# originalid：原始ID
+# appid：个人AppID
+# token：开通接口服务自定义设置
+wx:
+  config:
+    originalid: gh_8bcf3d9381d4
+    appid: wx70dd583b4c31327e
+    token: b8b6
 
 
 # 日志
