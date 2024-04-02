@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(ChatGPTSDKConfigProperties.class)
 public class ChatGPTSDKConfig {
 
+    @Bean
     public OpenAiSession openAiSession(ChatGPTSDKConfigProperties properties) {
         // 1. 配置文件
         com.codify.chatgpt.session.Configuration configuration = new com.codify.chatgpt.session.Configuration();

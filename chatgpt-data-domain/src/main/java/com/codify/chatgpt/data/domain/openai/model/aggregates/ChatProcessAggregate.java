@@ -1,6 +1,7 @@
 package com.codify.chatgpt.data.domain.openai.model.aggregates;
 
 import com.codify.chatgpt.data.domain.openai.model.entity.MessageEntity;
+import com.codify.chatgpt.data.types.enums.ChatGPTModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
