@@ -1,10 +1,12 @@
 package com.codify.chatgpt.data.trigger.http;
 
 import com.alibaba.fastjson.JSON;
+import com.codify.chatgpt.data.domain.auth.service.IAuthService;
 import com.codify.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.codify.chatgpt.data.domain.openai.model.entity.MessageEntity;
 import com.codify.chatgpt.data.domain.openai.service.IChatService;
 import com.codify.chatgpt.data.trigger.http.dto.ChatGPTRequestDTO;
+import com.codify.chatgpt.data.types.common.Constants;
 import com.codify.chatgpt.data.types.exception.ChatGPTException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.stream.Collectors;
 
 /**
@@ -26,6 +29,8 @@ public class ChatGPTAIServiceController {
     @Resource
     private IChatService chatService;
 
+    @Resource
+    private IAuthService authService;
     /**
      * 流式问题，ChatGPT 请求接口
      * <p>
@@ -52,7 +57,21 @@ public class ChatGPTAIServiceController {
             response.setCharacterEncoding("UTF-8");
             response.setHeader("Cache-Control", "no-cache");
 
-            // 2. 构建参数
+            // 2. 构建异步响应对象【对 Token 过期拦截】
+            ResponseBodyEmitter emitter = new ResponseBodyEmitter(3 * 60 * 1000L);
+            boolean success = authService.checkToken(token);
+
+            if (!success) {
+                try {
+                    emitter.send(Constants.ResponseCode.TOKEN_ERROR.getCode());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                emitter.complete();
+                return emitter;
+            }
+
+            // 3. 构建参数
             ChatProcessAggregate chatProcessAggregate = ChatProcessAggregate.builder()
                     .token(token)
                     .model(request.getModel())
@@ -66,12 +85,13 @@ public class ChatGPTAIServiceController {
                     .build();
 
             // 3. 请求结果&返回
-            return chatService.completions(chatProcessAggregate);
+            return chatService.completions(emitter, chatProcessAggregate);
         } catch (Exception e) {
             log.error("流式应答，请求模型：{} 发生异常", request.getModel(), e);
             throw new ChatGPTException(e.getMessage());
         }
     }
+
 
 }
 
