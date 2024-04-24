@@ -24,7 +24,7 @@ public class XmlUtil {
      * 解析微信发来的请求(xml)
      */
     @SuppressWarnings("unchecked")
-    public static Map<String,String> xmlToMap(HttpServletRequest request)throws Exception{
+    public static Map<String, String> xmlToMap(HttpServletRequest request) throws Exception {
         // 从request中取得输入流
         try (InputStream inputStream = request.getInputStream()) {
             // 将解析结果存储在HashMap中
@@ -87,7 +87,6 @@ public class XmlUtil {
                 } else {
                     sb.append("<").append(key).append("><![CDATA[").append(value).append("]]></").append(key).append(">");
                 }
-
             }
 
         }

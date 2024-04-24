@@ -1,7 +1,7 @@
 server:
-  port: 8090
+  port: 8091
 
-#应用配置
+# 应用配置
 app:
   config:
     # 版本，方便通过接口版本升级
@@ -9,16 +9,17 @@ app:
     # 跨域，开发阶段可以设置为 * 不限制
     cross-origin: '*'
 
-#线程池配置
+# 线程池配置
 thread:
   pool:
     executor:
       config:
         core-pool-size: 20
-        block-queue-size: 5000
         max-pool-size: 50
         keep-alive-time: 5000
+        block-queue-size: 5000
         policy: CallerRunsPolicy
+
 
 
 # ChatGPT SDK Config
@@ -26,8 +27,7 @@ chatgpt:
   sdk:
     config:
       api-host: https://pro-share-aws-api.zcyai.com/
-      api-key: sk-PbgyE7PeErEvJQz83aCeC28038874dC1BeCaBb07Af9e35C8
-      auth-token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4ZmciLCJleHAiOjE2OTAwMzI5MDQsImlhdCI6MTY5MDAyOTMwNCwianRpIjoiOTBkNzc5NjYtOWM5MS00MGVmLWJmNjktNzYzNDljNmUyMDkyIiwidXNlcm5hbWUiOiJ4ZmcifQ.x7P6Rc249SgbxpqWhgKahYP8A8AllNI_26DV08a1AZs
+      api-key: sk-1JvI5Ups3Ygt5krh3f4cEeC5292a451d95694c970dFa1fF5
 
 
 

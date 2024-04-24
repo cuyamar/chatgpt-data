@@ -1,5 +1,5 @@
 server:
-  port: 8090
+  port: 8091
 
 #应用配置
 app:
@@ -26,8 +26,7 @@ chatgpt:
   sdk:
     config:
       api-host: https://pro-share-aws-api.zcyai.com/
-      api-key: sk-PbgyE7PeErEvJQz83aCeC28038874dC1BeCaBb07Af9e35C8
-      auth-token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4ZmciLCJleHAiOjE2OTAwMzI5MDQsImlhdCI6MTY5MDAyOTMwNCwianRpIjoiOTBkNzc5NjYtOWM5MS00MGVmLWJmNjktNzYzNDljNmUyMDkyIiwidXNlcm5hbWUiOiJ4ZmcifQ.x7P6Rc249SgbxpqWhgKahYP8A8AllNI_26DV08a1AZs
+      api-key: sk-1JvI5Ups3Ygt5krh3f4cEeC5292a451d95694c970dFa1fF5
 
 
 #ChatGLM SDK Config

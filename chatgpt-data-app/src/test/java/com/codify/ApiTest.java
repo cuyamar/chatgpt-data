@@ -1,12 +1,16 @@
 package com.codify;
 
-
-import com.codify.chatglm.model.*;
-import com.codify.chatglm.session.OpenAiSession;
+import com.alibaba.fastjson.JSON;
+import com.codify.chatgpt.data.trigger.http.dto.ChatGPTRequestDTO;
+import com.codify.chatgpt.data.trigger.http.dto.MessageEntity;
+import com.codify.chatgpt.data.types.enums.ChatGPTModel;
+import com.codify.chatgpt.domain.chat.ChatCompletionRequest;
+import com.codify.chatgpt.domain.chat.ChatCompletionResponse;
+import com.codify.chatgpt.session.OpenAiSession;
 import com.codify.chatgpt.common.Constants;
 import com.codify.chatgpt.data.Application;
 import com.codify.chatgpt.domain.chat.Message;
-import com.codify.chatgpt.data.domain.openai.model.entity.MessageEntity;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.sse.EventSource;
@@ -98,6 +102,7 @@ public class ApiTest{
 
         String str = "{\"messages\":[{\"content\":\"写一个java冒泡排序\",\"role\":\"user\"}],\"model\":\"gpt-3.5-turbo\"}";
     }
+
 
 
 
