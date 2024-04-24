@@ -95,6 +95,16 @@
         <version>1.15</version>
       </dependency>
 
+      <!-- https://mvnrepository.com/artifact/com.github.houbb/sensitive-word -->
+      <dependency>
+        <groupId>com.github.houbb</groupId>
+        <artifactId>sensitive-word</artifactId>
+        <version>0.8.0</version>
+      </dependency>
+
+
+
+
       <dependency>
         <groupId>com.codify</groupId>
         <artifactId>chatgpt-sdk-java</artifactId>

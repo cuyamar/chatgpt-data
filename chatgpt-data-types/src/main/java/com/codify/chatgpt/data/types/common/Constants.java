@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
  * @author: Sky
  */
 public class Constants {
+    public final static String SPLIT = ",";
 
     @AllArgsConstructor
     @NoArgsConstructor
