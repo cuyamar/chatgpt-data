@@ -7,6 +7,7 @@ import com.codify.chatgpt.data.domain.openai.model.valobj.LogicCheckTypeVO;
 import com.codify.chatgpt.data.domain.openai.service.rule.ILogicFilter;
 import com.codify.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFactory;
 import com.google.common.cache.Cache;
+import com.google.common.util.concurrent.RateLimiter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -23,29 +24,49 @@ import javax.annotation.Resource;
 public class AccessLimitFilter implements ILogicFilter {
     @Value("${app.config.limit-count:10}")
     private Integer limitCount;
+
+    @Value("3")
+    private Integer rateLimitCount;
+
     @Value("${app.config.white-list}")
     private String whiteListStr;
     @Resource
     private Cache<String, Integer> visitCache;
 
+    @Resource
+    private Cache<String,Integer> rateCache;
+
+    @Resource
+    private RateLimiter rateLimiter;
     @Override
     public RuleLogicEntity<ChatProcessAggregate> filter(ChatProcessAggregate chatProcess) throws Exception {
         //1。白名单用户直接放行
         if(chatProcess.isWhiteList(whiteListStr)){
             return RuleLogicEntity.<ChatProcessAggregate>builder()
-                    .type(LogicCheckTypeVO.SUCCESS).data(chatProcess).build();
+                    .type(LogicCheckTypeVO.SUCCESS)
+                    .data(chatProcess)
+                    .build();
         }
-
+        //获取openid
         String openid = chatProcess.getOpenid();
         //2.访问次数判断
-        int visitCount = visitCache.get(openid,()->0);
-        if(visitCount < limitCount){
-            visitCache.put(openid,visitCount+1);
-            return RuleLogicEntity.<ChatProcessAggregate>builder()
-                    .type(LogicCheckTypeVO.SUCCESS).data(chatProcess).build();
+        int visitCount = rateCache.get(openid,()->0);
+
+        if(visitCount < rateLimitCount){
+            if(rateLimiter.tryAcquire()){
+                rateCache.put(openid,visitCount+1);
+                return RuleLogicEntity.<ChatProcessAggregate>builder()
+                        .type(LogicCheckTypeVO.SUCCESS)
+                        .data(chatProcess)
+                        .build();
+            }
+        }else {
+            visitCache.put(openid,visitCache.get(openid,()->0)-1);
         }
         return RuleLogicEntity.<ChatProcessAggregate>builder()
-                .info("您今日的免费" + limitCount + "次，已耗尽！")
-                .type(LogicCheckTypeVO.REFUSE).data(chatProcess).build();
+                .info("你访问频率过快，请稍后！")
+                .type(LogicCheckTypeVO.REFUSE)
+                .data(chatProcess)
+                .build();
     }
 }

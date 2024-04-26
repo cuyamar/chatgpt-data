@@ -49,6 +49,8 @@ public class AuthService extends AbstractAuthService{
         return isVerify(token);
     }
 
+
+
     @Override
     public String openid(String token) {
         Claims claims = decode(token);

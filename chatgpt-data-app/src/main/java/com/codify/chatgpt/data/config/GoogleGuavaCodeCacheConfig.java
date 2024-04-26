@@ -12,6 +12,10 @@ import java.util.concurrent.TimeUnit;
  */
 @Configuration
 public class GoogleGuavaCodeCacheConfig {
+    /**
+     * 3分钟过期
+     * @return
+     */
     @Bean(name = "codeCache")
     public Cache<String,String> codeCache(){
         return CacheBuilder.newBuilder()
@@ -19,10 +23,21 @@ public class GoogleGuavaCodeCacheConfig {
                 .build();
     }
 
+    /**
+     * 12小时过期
+     * @return
+     */
     @Bean(name = "visitCache")
     public Cache<String, Integer> visitCache() {
         return CacheBuilder.newBuilder()
                 .expireAfterWrite(12, TimeUnit.HOURS)
+                .build();
+    }
+
+    @Bean(name = "rateCache")
+    public Cache<String,Integer> rateCache(){
+        return CacheBuilder.newBuilder()
+                .expireAfterWrite(1,TimeUnit.MINUTES)
                 .build();
     }
 
