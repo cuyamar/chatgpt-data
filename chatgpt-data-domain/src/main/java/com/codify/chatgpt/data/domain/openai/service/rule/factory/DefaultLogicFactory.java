@@ -15,21 +15,22 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 public class DefaultLogicFactory {
+
     public Map<String, ILogicFilter> logicFilterMap = new ConcurrentHashMap<>();
 
-    public DefaultLogicFactory(List<ILogicFilter> logicFilters){
-        logicFilters.forEach(logic ->{
+    public DefaultLogicFactory(List<ILogicFilter> logicFilters) {
+        logicFilters.forEach(logic -> {
             LogicStrategy strategy = AnnotationUtils.findAnnotation(logic.getClass(), LogicStrategy.class);
             if (null != strategy) {
                 logicFilterMap.put(strategy.logicMode().getCode(), logic);
             }
-
         });
     }
 
     public Map<String, ILogicFilter> openLogicFilter() {
         return logicFilterMap;
     }
+
 
     /**
      * 规则逻辑枚举

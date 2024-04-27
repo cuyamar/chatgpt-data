@@ -18,29 +18,32 @@ import javax.annotation.Resource;
 @Service
 public class AuthService extends AbstractAuthService{
 
+
     @Resource
-    private Cache<String,String> codeCache;
+    private Cache<String, String> codeCache;
 
     @Override
     protected AuthStateEntity checkCode(String code) {
-        //获取验证码校验
+        // 获取验证码校验
         String openId = codeCache.getIfPresent(code);
-        if(StringUtils.isBlank(openId)){
-            log.info("鉴权，用户输入的验证码不存在{}",code);
+        if (StringUtils.isBlank(openId)){
+            log.info("鉴权，用户收入的验证码不存在 {}", code);
             return AuthStateEntity.builder()
                     .code(AuthTypeVO.A0001.getCode())
                     .info(AuthTypeVO.A0001.getInfo())
                     .build();
         }
 
-        //移除缓存key值
+
+        // 移除缓存Key值
         codeCache.invalidate(openId);
         codeCache.invalidate(code);
 
-        //验证码校验成功
+        // 验证码校验成功
         return AuthStateEntity.builder()
                 .code(AuthTypeVO.A0000.getCode())
                 .info(AuthTypeVO.A0000.getInfo())
+                .openId(openId)
                 .build();
     }
 
@@ -49,11 +52,10 @@ public class AuthService extends AbstractAuthService{
         return isVerify(token);
     }
 
-
-
     @Override
     public String openid(String token) {
         Claims claims = decode(token);
         return claims.get("openId").toString();
     }
+
 }

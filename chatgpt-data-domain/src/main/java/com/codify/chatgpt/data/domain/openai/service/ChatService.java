@@ -6,6 +6,7 @@ import com.codify.chatgpt.data.domain.openai.model.entity.RuleLogicEntity;
 import com.codify.chatgpt.data.domain.openai.model.valobj.LogicCheckTypeVO;
 import com.codify.chatgpt.data.domain.openai.service.rule.ILogicFilter;
 import com.codify.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFactory;
+import com.codify.chatgpt.data.types.exception.ChatGPTException;
 import com.codify.chatgpt.domain.chat.ChatChoice;
 import com.codify.chatgpt.domain.chat.ChatCompletionRequest;
 import com.codify.chatgpt.domain.chat.ChatCompletionResponse;
@@ -35,6 +36,7 @@ public class ChatService extends AbstractChatService{
 
     @Resource
     private DefaultLogicFactory logicFactory;
+
     @Override
     protected RuleLogicEntity<ChatProcessAggregate> doCheckLogic(ChatProcessAggregate chatProcess, String... logics) throws Exception {
         Map<String, ILogicFilter> logicFilterMap = logicFactory.openLogicFilter();
@@ -45,7 +47,6 @@ public class ChatService extends AbstractChatService{
         }
         return entity != null ? entity : RuleLogicEntity.<ChatProcessAggregate>builder()
                 .type(LogicCheckTypeVO.SUCCESS).data(chatProcess).build();
-
     }
 
     @Override
@@ -64,10 +65,8 @@ public class ChatService extends AbstractChatService{
                 .builder()
                 .stream(true)
                 .messages(messages)
-                .model(ChatCompletionRequest.Model.GPT_3_5_TURBO.getCode())
+                .model(chatProcess.getModel())
                 .build();
-
-
 
         // 3.2 请求应答
         openAiSession.chatCompletions(chatCompletion, new EventSourceListener() {
@@ -90,13 +89,12 @@ public class ChatService extends AbstractChatService{
                     try {
                         emitter.send(delta.getContent());
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        throw new ChatGPTException(e.getMessage());
                     }
                 }
 
             }
         });
     }
-
 
 }

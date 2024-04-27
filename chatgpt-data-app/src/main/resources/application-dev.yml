@@ -12,10 +12,7 @@ app:
     limit-count: 10
     # 白名单，不做频次拦截【微信的openai】oxfA9w8-23yvwTmo2ombz0E4zJv4
     white-list: ojbZUv18lbmriaTjcCWBYkOrSbHA
-    #频率限次
-    rate-limit-count: 3
-    #限制时间 以秒为单位
-    limit-time-second: 30
+
 
 
 # 线程池配置
@@ -37,7 +34,6 @@ chatgpt:
     config:
       api-host: https://pro-share-aws-api.zcyai.com/
       api-key: sk-1JvI5Ups3Ygt5krh3f4cEeC5292a451d95694c970dFa1fF5
-
 
 
 #ChatGLM SDK Config

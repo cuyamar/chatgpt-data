@@ -76,7 +76,6 @@ public class ChatGPTAIServiceController {
             String openid = authService.openid(token);
             log.info("流式问答请求处理，openid:{} 请求模型:{}", openid, request.getModel());
 
-
             // 4. 构建参数
             ChatProcessAggregate chatProcessAggregate = ChatProcessAggregate.builder()
                     .openid(openid)
@@ -97,7 +96,5 @@ public class ChatGPTAIServiceController {
             throw new ChatGPTException(e.getMessage());
         }
     }
-
-
 }
 

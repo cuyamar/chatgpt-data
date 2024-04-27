@@ -62,4 +62,5 @@ public class SensitiveWordFilter implements ILogicFilter {
                 .data(newChatProcessAggregate)
                 .build();
     }
+
 }

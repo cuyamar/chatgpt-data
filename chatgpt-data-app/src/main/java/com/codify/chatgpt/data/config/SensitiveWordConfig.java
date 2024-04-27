@@ -13,8 +13,9 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 public class SensitiveWordConfig {
+
     @Bean
-    public SensitiveWordBs sensitiveWordBs(){
+    public SensitiveWordBs sensitiveWordBs() {
         return SensitiveWordBs.newInstance()
                 .wordReplace((stringBuilder, chars, wordResult, iWordContext) -> {
                     String sensitiveWord = InnerWordCharUtils.getString(chars, wordResult);
@@ -39,6 +40,6 @@ public class SensitiveWordConfig {
                 .enableWordCheck(true)
                 .numCheckLen(1024)
                 .init();
-
     }
+
 }

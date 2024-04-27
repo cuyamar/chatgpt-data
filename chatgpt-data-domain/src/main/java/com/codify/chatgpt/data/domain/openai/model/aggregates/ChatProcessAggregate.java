@@ -19,23 +19,19 @@ import java.util.List;
 @AllArgsConstructor
 public class ChatProcessAggregate {
 
-    /**
-     * 用户id
-     */
+    /** 用户ID */
     private String openid;
-
     /** 默认模型 */
     private String model = ChatGPTModel.GPT_3_5_TURBO.getCode();
     /** 问题描述 */
     private List<MessageEntity> messages;
 
-
-    public boolean isWhiteList(String whiteListStr){
+    public boolean isWhiteList(String whiteListStr) {
         String[] whiteList = whiteListStr.split(Constants.SPLIT);
-        for(String whiteOpenid:whiteList){
-            if(whiteOpenid.equals(openid))
-                return true;
+        for (String whiteOpenid : whiteList) {
+            if (whiteOpenid.equals(openid)) return true;
         }
         return false;
     }
+
 }
