@@ -4,8 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.codify.chatgpt.data.domain.auth.model.entity.AuthStateEntity;
 import com.codify.chatgpt.data.domain.auth.model.valobj.AuthTypeVO;
 import com.codify.chatgpt.data.domain.auth.service.IAuthService;
+import com.codify.chatgpt.data.domain.weixin.model.entity.MessageTextEntity;
+import com.codify.chatgpt.data.domain.weixin.model.entity.UserBehaviorMessageEntity;
+import com.codify.chatgpt.data.domain.weixin.model.valobj.MsgTypeVO;
+import com.codify.chatgpt.data.domain.weixin.service.message.WeiXinBehaviorService;
+import com.codify.chatgpt.data.trigger.http.dto.MessageEntity;
 import com.codify.chatgpt.data.types.common.Constants;
 import com.codify.chatgpt.data.types.model.Response;
+import com.codify.chatgpt.data.types.sdk.weixin.XmlUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +30,35 @@ public class AuthController {
     @Resource
     private IAuthService authService;
 
+    @Resource
+    private WeiXinBehaviorService weiXinBehaviorService;
+
+
+    @RequestMapping(value = "gen/code", method = RequestMethod.POST)
+    public Response<String> genCode(@RequestParam String openid) {
+        log.info("生成验证码开始，用户ID: {}", openid);
+        try {
+            UserBehaviorMessageEntity userBehaviorMessageEntity = new UserBehaviorMessageEntity();
+            userBehaviorMessageEntity.setOpenId(openid);
+            userBehaviorMessageEntity.setMsgType(MsgTypeVO.TEXT.getCode());
+            userBehaviorMessageEntity.setContent("405");
+            String xml = weiXinBehaviorService.acceptUserBehavior(userBehaviorMessageEntity);
+            MessageTextEntity messageTextEntity = XmlUtil.xmlToBean(xml, MessageTextEntity.class);
+            log.info("生成验证码完成，用户ID: {} 生成结果：{}", openid, messageTextEntity.getContent());
+            return Response.<String>builder()
+                    .code(Constants.ResponseCode.SUCCESS.getCode())
+                    .info(Constants.ResponseCode.SUCCESS.getInfo())
+                    .data(messageTextEntity.getContent())
+                    .build();
+        } catch (Exception e){
+            log.info("生成验证码失败，用户ID: {}", openid);
+            return Response.<String>builder()
+                    .code(Constants.ResponseCode.TOKEN_ERROR.getCode())
+                    .info(Constants.ResponseCode.TOKEN_ERROR.getInfo())
+                    .build();
+        }
+    }
+
     /**
      * 【apix.natapp1.cc 是我在 <a href="https://natapp.cn/">https://natapp.cn</a> 购买的渠道，你需要自己购买一个使用】
      * 鉴权，根据鉴权结果返回 Token 码
@@ -39,11 +74,10 @@ public class AuthController {
      */
     @RequestMapping(value = "login", method = RequestMethod.POST)
     public Response<String> doLogin(@RequestParam String code){
-        log.info("登录鉴权验证开始,验证码{}",code);
+        log.info("鉴权登录校验开始，验证码: {}", code);
         try {
             AuthStateEntity authStateEntity = authService.doLogin(code);
             log.info("鉴权登录校验完成，验证码: {} 结果: {}", code, JSON.toJSONString(authStateEntity));
-
             // 拦截，鉴权失败
             if (!AuthTypeVO.A0000.getCode().equals(authStateEntity.getCode())) {
                 return Response.<String>builder()
@@ -59,13 +93,12 @@ public class AuthController {
                     .data(authStateEntity.getToken())
                     .build();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("鉴权登录校验失败，验证码: {}", code);
             return Response.<String>builder()
                     .code(Constants.ResponseCode.UN_ERROR.getCode())
                     .info(Constants.ResponseCode.UN_ERROR.getInfo())
                     .build();
-
         }
     }
 }
