@@ -57,7 +57,10 @@
             <artifactId>sensitive-word</artifactId>
         </dependency>
 
-
+        <dependency>
+            <groupId>com.github.wechatpay-apiv3</groupId>
+            <artifactId>wechatpay-java</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.codify</groupId>

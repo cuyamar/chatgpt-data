@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  * 对话模型抽象类
  */
 @Slf4j
-public abstract class AbstractChatService implements IChatService{
+public abstract class AbstractChatService implements IChatService {
 
     @Resource
     protected OpenAiSession openAiSession;
@@ -40,9 +40,8 @@ public abstract class AbstractChatService implements IChatService{
             //2.账户获取
             UserAccountQuotaEntity userAccountQuotaEntity = openAiRepository.queryUserAccount(chatProcess.getOpenid());
 
-
             // 3. 规则过滤
-            RuleLogicEntity<ChatProcessAggregate> ruleLogicEntity = this.doCheckLogic(chatProcess,userAccountQuotaEntity,
+            RuleLogicEntity<ChatProcessAggregate> ruleLogicEntity = this.doCheckLogic(chatProcess, userAccountQuotaEntity,
                     DefaultLogicFactory.LogicModel.ACCESS_LIMIT.getCode(),
                     DefaultLogicFactory.LogicModel.SENSITIVE_WORD.getCode(),
                     null != userAccountQuotaEntity ? DefaultLogicFactory.LogicModel.ACCOUNT_STATUS.getCode() : DefaultLogicFactory.LogicModel.NULL.getCode(),
@@ -66,7 +65,7 @@ public abstract class AbstractChatService implements IChatService{
         return emitter;
     }
 
-    protected abstract RuleLogicEntity<ChatProcessAggregate> doCheckLogic(ChatProcessAggregate chatProcess, UserAccountQuotaEntity userAccountQuotaEntity,String... logics) throws Exception;
+    protected abstract RuleLogicEntity<ChatProcessAggregate> doCheckLogic(ChatProcessAggregate chatProcess, UserAccountQuotaEntity userAccountQuotaEntity, String... logics) throws Exception;
 
     protected abstract void doMessageResponse(ChatProcessAggregate chatProcess, ResponseBodyEmitter responseBodyEmitter) throws JsonProcessingException;
 
