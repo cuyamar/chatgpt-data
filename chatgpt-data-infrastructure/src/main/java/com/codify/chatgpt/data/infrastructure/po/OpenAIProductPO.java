@@ -56,7 +56,7 @@ public class OpenAIProductPO {
     /**
      * 是否有效 0无效 1有效
      */
-    private Integer enable;
+    private Integer isEnabled;
 
     /**
      * 创建时间

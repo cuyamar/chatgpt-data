@@ -1,6 +1,7 @@
 package com.codify.chatgpt.data.domain.order.repository;
 
 import com.codify.chatgpt.data.domain.order.model.aggregates.CreateOrderAggregate;
+import com.codify.chatgpt.data.domain.order.model.entity.PayOrderEntity;
 import com.codify.chatgpt.data.domain.order.model.entity.ProductEntity;
 import com.codify.chatgpt.data.domain.order.model.entity.ShopCartEntity;
 import com.codify.chatgpt.data.domain.order.model.entity.UnpaidOrderEntity;
@@ -34,6 +35,12 @@ public interface IOrderRepository {
     void saveOrder(CreateOrderAggregate aggregate);
 
     /**
+     * 修改订单信息
+     * @param payOrderEntity
+     */
+    void updateOrderPayInfo(PayOrderEntity payOrderEntity);
+
+    /**
      * 查询订单是否支付成功
      * @param orderId
      * @param transactionId
@@ -54,9 +61,9 @@ public interface IOrderRepository {
 
     /**
      * 交付货物
-     * @param oderId
+     * @param orderId
      */
-    void deliverGoods(String oderId);
+    void deliverGoods(String orderId);
 
     /**
      * 查询补货订单

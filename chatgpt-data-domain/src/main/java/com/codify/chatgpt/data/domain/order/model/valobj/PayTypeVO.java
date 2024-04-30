@@ -16,12 +16,13 @@ public enum PayTypeVO {
     private final Integer code;
     private final String desc;
 
-    public static PayTypeVO get(Integer code) {
-        switch (code) {
+    public static PayTypeVO get(Integer code){
+        switch (code){
             case 0:
                 return PayTypeVO.WEIXIN_NATIVE;
             default:
                 return PayTypeVO.WEIXIN_NATIVE;
         }
     }
+
 }
