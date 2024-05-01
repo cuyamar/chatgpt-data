@@ -42,6 +42,6 @@ public class OrderEntity {
     /**
      * 支付类型
      */
-    private PayTypeVO payTypeVo;
+    private PayTypeVO payTypeVO;
 
 }

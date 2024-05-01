@@ -97,7 +97,7 @@ public class OrderRepository implements IOrderRepository {
         openAIOrderPO.setOrderTime(order.getOrderTime());
         openAIOrderPO.setOrderStatus(order.getOrderStatus().getCode());
         openAIOrderPO.setTotalAmount(order.getTotalAmount());
-        openAIOrderPO.setPayType(order.getPayTypeVo().getCode());
+        openAIOrderPO.setPayType(order.getPayTypeVO().getCode());
         openAIOrderPO.setPayStatus(PayStatusVO.WAIT.getCode());
         openAIOrderDao.insert(openAIOrderPO);
     }
