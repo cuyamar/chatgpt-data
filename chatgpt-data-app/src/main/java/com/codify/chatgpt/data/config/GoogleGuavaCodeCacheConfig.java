@@ -1,7 +1,9 @@
 package com.codify.chatgpt.data.config;
 
+import com.codify.chatgpt.data.trigger.mq.OrderPaySuccessListener;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.eventbus.EventBus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,5 +29,11 @@ public class GoogleGuavaCodeCacheConfig {
                 .build();
     }
 
+    @Bean
+    public EventBus eventBusListener(OrderPaySuccessListener listener){
+        EventBus eventBus = new EventBus();
+        eventBus.register(listener);
+        return eventBus;
+    }
 }
 
