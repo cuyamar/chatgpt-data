@@ -200,10 +200,10 @@ public class SaleController {
             } else {
                 response.getWriter().write("<xml><return_code><![CDATA[FAIL]]></return_code></xml>");
             }
-
         }catch (Exception e){
             log.error("支付失败", e);
             response.getWriter().write("<xml><return_code><![CDATA[FAIL]]></return_code></xml>");
         }
     }
+
 }

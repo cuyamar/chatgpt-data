@@ -57,7 +57,7 @@
             pay_amount = #{payAmount},
             pay_time = #{payTime},
             transaction_id = #{transactionId},
-            updata_time = now()
+            update_time = now()
         WHERE order_id = #{orderId} AND pay_time is null
     </update>
 

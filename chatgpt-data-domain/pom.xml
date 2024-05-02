@@ -62,6 +62,14 @@
             <artifactId>wechatpay-java</artifactId>
         </dependency>
 
+
+        <!-- 支付宝沙箱支付对接文档：https://opendocs.alipay.com/common/02kkv7 -->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+        </dependency>
+
+
         <dependency>
             <groupId>com.codify</groupId>
             <artifactId>chatglm-sdk-java</artifactId>
