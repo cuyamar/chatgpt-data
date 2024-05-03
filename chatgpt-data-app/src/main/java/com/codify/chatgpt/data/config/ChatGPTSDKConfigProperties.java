@@ -11,6 +11,4 @@ public class ChatGPTSDKConfigProperties {
     private String apiHost;
     /** 可以申请 sk-*** */
     private String apiKey;
-    /** 获取Token <a href="http://api.xfg.im:8080/authorize?username=xfg&password=123">访问获取</a> */
-    private String authToken;
 }
