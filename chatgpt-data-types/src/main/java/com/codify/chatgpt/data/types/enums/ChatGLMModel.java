@@ -4,11 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 模型对象
+ * @author Sky
+ * @description 模型对象
+ * @create
  */
 @Getter
 @AllArgsConstructor
 public enum ChatGLMModel {
+
     CHATGLM_6B_SSE("chatGLM_6b_SSE"),
     CHATGLM_LITE("chatglm_lite"),
     CHATGLM_LITE_32K("chatglm_lite_32k"),

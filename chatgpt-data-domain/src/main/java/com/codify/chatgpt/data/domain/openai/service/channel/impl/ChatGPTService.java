@@ -11,6 +11,7 @@ import com.codify.chatgpt.domain.chat.ChatCompletionResponse;
 import com.codify.chatgpt.domain.chat.Message;
 import com.codify.chatgpt.session.OpenAiSession;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.sse.EventSource;
 import okhttp3.sse.EventSourceListener;
 import org.apache.commons.lang3.StringUtils;
@@ -23,17 +24,27 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
+
 /**
  * @author: Sky
  * ChatGPT 服务
  */
+@Slf4j
 @Service
-public class ChatGPTService implements OpenAiGroupService {
+public class ChatGPTService implements OpenAiGroupService{
     @Resource
     protected OpenAiSession chatGPTOpenAiSession;
 
     @Override
     public void doMessageResponse(ChatProcessAggregate chatProcess, ResponseBodyEmitter emitter) throws JsonProcessingException {
+        if (chatGPTOpenAiSession != null) {
+            // 成功注入 OpenAiSession bean
+            log.info("OpenAiSession bean successfully injected.");
+        } else {
+            // 未成功注入 OpenAiSession bean
+            log.error("Failed to inject OpenAiSession bean.");
+        }
         // 1. 请求消息
         List<Message> messages = chatProcess.getMessages().stream()
                 .map(entity -> Message.builder()

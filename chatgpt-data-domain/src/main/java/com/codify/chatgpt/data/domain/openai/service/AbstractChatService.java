@@ -9,11 +9,9 @@ import com.codify.chatgpt.data.domain.openai.service.channel.impl.ChatGLMService
 import com.codify.chatgpt.data.domain.openai.service.channel.impl.ChatGPTService;
 import com.codify.chatgpt.data.domain.openai.service.rule.factory.DefaultLogicFactory;
 import com.codify.chatgpt.data.types.enums.OpenAiChannel;
-import com.codify.chatgpt.session.OpenAiSession;
 import com.codify.chatgpt.data.types.common.Constants;
 import com.codify.chatgpt.data.types.exception.ChatGPTException;
 import com.codify.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
@@ -30,7 +28,7 @@ public abstract class AbstractChatService implements IChatService {
 
     private final Map<OpenAiChannel, OpenAiGroupService> openAiGroup = new HashMap<>();
 
-    public AbstractChatService(ChatGPTService chatGPTService, ChatGLMService chatGLMService) {
+    public AbstractChatService(ChatGPTService chatGPTService,ChatGLMService chatGLMService ) {
         openAiGroup.put(OpenAiChannel.ChatGPT, chatGPTService);
         openAiGroup.put(OpenAiChannel.ChatGLM, chatGLMService);
     }

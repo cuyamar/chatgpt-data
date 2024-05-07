@@ -69,9 +69,8 @@ chatgpt:
 chatglm:
   sdk:
     config:
-      #官方地址https://open.bigmodel.cn/
       api-host: https://open.bigmodel.cn/
-      api-secret-key: a391bf252379bc2ed4164e2363e00516.0gJYz4WhwyhboEHC
+      api-secret-key: b20bc3ed3a39cd2d6473039e3c14bba7.3e6MPjNGKS9QTfi4
 
 
 # 微信公众号配置信息

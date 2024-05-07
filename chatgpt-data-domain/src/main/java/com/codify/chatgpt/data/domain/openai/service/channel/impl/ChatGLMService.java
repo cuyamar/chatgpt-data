@@ -2,11 +2,11 @@ package com.codify.chatgpt.data.domain.openai.service.channel.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.codify.chatglm.model.*;
+import com.codify.chatglm.session.OpenAiSession;
 import com.codify.chatgpt.data.domain.openai.model.aggregates.ChatProcessAggregate;
 import com.codify.chatgpt.data.domain.openai.service.channel.OpenAiGroupService;
 import com.codify.chatgpt.data.types.enums.ChatGLMModel;
 import com.codify.chatgpt.data.types.exception.ChatGPTException;
-import com.codify.chatglm.session.OpenAiSession;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.sse.EventSource;
@@ -19,19 +19,16 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-
 /**
  * @author: Sky
- * ChatGLM服务
  */
-@Slf4j
 @Service
-public class ChatGLMService implements OpenAiGroupService {
+@Slf4j
+public class ChatGLMService implements OpenAiGroupService{
     @Resource
-    protected OpenAiSession chatGlMOpenAiSession;
+    protected OpenAiSession chatGLMOpenAiSession;
     @Override
-    public void doMessageResponse(ChatProcessAggregate chatProcess, ResponseBodyEmitter emitter) throws Exception,JsonProcessingException {
+    public void doMessageResponse(ChatProcessAggregate chatProcess, ResponseBodyEmitter emitter) throws Exception, JsonProcessingException {
         // 1. 请求消息
         List<ChatCompletionRequest.Prompt> prompts = chatProcess.getMessages().stream()
                 .map(entity -> ChatCompletionRequest.Prompt.builder()
@@ -45,7 +42,7 @@ public class ChatGLMService implements OpenAiGroupService {
         request.setModel(Model.valueOf(ChatGLMModel.get(chatProcess.getModel()).name())); // chatGLM_6b_SSE、chatglm_lite、chatglm_lite_32k、chatglm_std、chatglm_pro
         request.setPrompt(prompts);
 
-        chatGlMOpenAiSession.completions(request, new EventSourceListener(){
+        chatGLMOpenAiSession.completions(request, new EventSourceListener() {
             @Override
             public void onEvent(EventSource eventSource, @Nullable String id, @Nullable String type, String data) {
                 ChatCompletionResponse response = JSON.parseObject(data, ChatCompletionResponse.class);
@@ -72,5 +69,6 @@ public class ChatGLMService implements OpenAiGroupService {
             }
 
         });
+
     }
 }
