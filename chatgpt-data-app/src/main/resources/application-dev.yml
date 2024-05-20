@@ -122,6 +122,7 @@ redis:
       retry-interval: 1000
       ping-interval: 60000
       keep-alive: true
+      password: yq20031208
 
 
 
