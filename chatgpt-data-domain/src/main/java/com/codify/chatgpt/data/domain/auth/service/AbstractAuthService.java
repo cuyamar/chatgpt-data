@@ -9,7 +9,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 
@@ -19,7 +18,7 @@ import java.util.*;
  * @author: Sky
  */
 @Slf4j
-public abstract class AbstractAuthService implements IAuthService{
+public abstract class AbstractAuthService implements IAuthService {
 
     /** SecretKey 要替换为你自己的，并且最好是通过配置的方式使用 */
     private static final String defaultBase64EncodedSecretKey = "B*B^D%fe";

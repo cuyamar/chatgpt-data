@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 
 /**
  * @author: Sky
- * 受理用户行为实现接口
+ * @description 受理用户行为实现接口
  */
 @Service
 public class WeiXinBehaviorService implements IWeiXinBehaviorService {

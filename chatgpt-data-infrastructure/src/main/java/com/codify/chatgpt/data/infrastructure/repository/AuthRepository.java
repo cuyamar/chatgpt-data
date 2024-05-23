@@ -20,7 +20,7 @@ public class AuthRepository implements IAuthRepository {
 
     @Override
     public String getCodeUserOpenId(String code) {
-        return redisService.getValue(Key+"_"+code);
+        return redisService.getValue(Key + "_"+code);
     }
 
     @Override

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author: Sky
- * 启动类
+ * @describtion 启动类
  */
 @Configuration
 @SpringBootApplication

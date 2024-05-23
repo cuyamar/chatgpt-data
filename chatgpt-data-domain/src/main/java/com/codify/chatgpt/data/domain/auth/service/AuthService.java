@@ -29,7 +29,7 @@ public class AuthService extends AbstractAuthService{
     @Override
     protected AuthStateEntity checkCode(String code) {
         // 获取验证码校验
-//        String openId = codeCache.getIfPresent(code);
+        //String openId = codeCache.getIfPresent(code);
         String openId = repository.getCodeUserOpenId(code);
         if (StringUtils.isBlank(openId)){
             log.info("鉴权，用户收入的验证码不存在 {}", code);
