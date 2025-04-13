@@ -57,11 +57,11 @@ public abstract class AbstractChatService implements IChatService {
                     null != userAccountQuotaEntity ? DefaultLogicFactory.LogicModel.USER_QUOTA.getCode() : DefaultLogicFactory.LogicModel.NULL.getCode()
             );
 
-            if (!LogicCheckTypeVO.SUCCESS.equals(ruleLogicEntity.getType())) {
-                emitter.send(ruleLogicEntity.getInfo());
-                emitter.complete();
-                return emitter;
-            }
+//            if (!LogicCheckTypeVO.SUCCESS.equals(ruleLogicEntity.getType())) {
+//                emitter.send(ruleLogicEntity.getInfo());
+//                emitter.complete();
+//                return emitter;
+//            }
 
             // 4. 应答处理 【ChatGPT、ChatGLM 策略模式】
             openAiGroup.get(chatProcess.getChannel()).doMessageResponse(ruleLogicEntity.getData(), emitter);

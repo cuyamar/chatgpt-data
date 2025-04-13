@@ -3,6 +3,7 @@ package com.codify.chatgpt.data.trigger.mq;
 import com.codify.chatgpt.data.domain.order.service.IOrderService;
 import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.listener.MessageListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -15,16 +16,27 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @Component
-public class OrderPaySuccessListener {
+public class OrderPaySuccessListener implements MessageListener<String> {
     @Resource
     private IOrderService orderService;
 
+    /*
     @Subscribe
     public void handleEvent(String orderId){
         try {
             log.info("支付完成，发货并记录，开始,订单：{}", orderId);
             orderService.deliverGoods(orderId);
         }catch (Exception e){
+            log.error("支付完成，发货并记录，失败,订单：{}", orderId, e);
+        }
+    }*/
+
+    @Override
+    public void onMessage(CharSequence charSequence, String orderId) {
+        try {
+            log.info("支付完成，发货并记录，开始,订单：{}", orderId);
+            orderService.deliverGoods(orderId);
+        } catch (Exception e) {
             log.error("支付完成，发货并记录，失败,订单：{}", orderId, e);
         }
     }

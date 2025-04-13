@@ -7,6 +7,7 @@ import com.wechat.pay.java.service.payments.nativepay.NativePayService;
 import com.wechat.pay.java.service.payments.nativepay.model.QueryOrderByOutTradeNoRequest;
 import io.micrometer.core.annotation.Timed;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -34,6 +35,9 @@ public class NoPayNotifyOrderJob {
 
     @Resource
     private EventBus eventBus;
+
+    @Resource
+    private RTopic redisTopic;
 
     @Value("${wxpay.config.mchid}")
     private String mchid;
@@ -74,7 +78,8 @@ public class NoPayNotifyOrderJob {
                 boolean isSuccess = orderService.changeOrderPaySuccess(orderId, transactionId, totalAmount, dateFormat.parse(successTime));
                 if (isSuccess) {
                     // 发布消息
-                    eventBus.post(orderId);
+                    //eventBus.post(orderId);
+                    redisTopic.publish(orderId);
                 }
             }
         }catch (Exception e){

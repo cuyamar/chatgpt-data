@@ -2,6 +2,9 @@ package com.codify.chatgpt.data.domain.weixin.model.entity;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
+
 /**
  * @author: Sky
  * 消息实体
@@ -26,6 +29,7 @@ public class MessageTextEntity {
 
     public MessageTextEntity() {
     }
+
 
     public String getMsgId() {
         return msgId;

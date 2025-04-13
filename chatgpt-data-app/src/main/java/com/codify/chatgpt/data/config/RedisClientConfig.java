@@ -2,16 +2,21 @@ package com.codify.chatgpt.data.config;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.codify.chatgpt.data.trigger.mq.OrderPaySuccessListener;
+import com.codify.chatgpt.data.types.redis.RedisTopic;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import org.redisson.Redisson;
+import org.redisson.api.RTopic;
 import org.redisson.api.RedissonClient;
+import org.redisson.api.listener.MessageListener;
 import org.redisson.client.codec.BaseCodec;
 import org.redisson.client.protocol.Decoder;
 import org.redisson.client.protocol.Encoder;
 import org.redisson.config.Config;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -43,8 +48,38 @@ public class RedisClientConfig {
                 .setPingConnectionInterval(properties.getPingInterval())
                 .setKeepAlive(properties.isKeepAlive())
         ;
-        return Redisson.create(config);
+
+        RedissonClient redissonClient = Redisson.create(config);
+
+        String[] beanNamesForType = applicationContext.getBeanNamesForType(MessageListener.class);
+        for(String beanName : beanNamesForType){
+            MessageListener bean = applicationContext.getBean(beanName, MessageListener.class);
+
+            Class<? extends MessageListener> beanClass = bean.getClass();
+            if(beanClass.isAnnotationPresent(RedisTopic.class)){
+                RedisTopic redisTopic = beanClass.getAnnotation(RedisTopic.class);
+
+                RTopic topic = redissonClient.getTopic(redisTopic.topic());
+                topic.addListener(String.class,bean);
+
+                ConfigurableBeanFactory beanFactory = applicationContext.getBeanFactory();
+                beanFactory.registerSingleton(redisTopic.topic(), topic);
+            }
+        }
+        return redissonClient;
     }
+
+    @Bean("redisTopic")
+    public RTopic redisTopicListener(RedissonClient redissonClient, OrderPaySuccessListener orderPaySuccessListener){
+        RTopic topic = redissonClient.getTopic("cuyar-dev-topic");
+        topic.addListener(String.class,orderPaySuccessListener);
+        return topic;
+    }
+
+
+    /**
+     * 手动配置
+     */
 
     static class RedisCodec extends BaseCodec{
 

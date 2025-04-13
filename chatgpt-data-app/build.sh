@@ -1,1 +1,1 @@
-docker build -f ./Dockerfile -t cuyar/chatgpt-data-app:1.1 .
+docker build -f ./Dockerfile -t ryanlily/chatgpt-data-app:1.2 .
